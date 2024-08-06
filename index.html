@@ -60,6 +60,7 @@
             overflow: hidden; /* Ensures the text is hidden until typed */
             white-space: nowrap; /* Prevents text from wrapping */
             animation: typing 0.2s steps(30, end);
+
         }
         .modules .highlight {
             color: rgba(255, 255, 255, 1);
@@ -72,7 +73,7 @@
             to { width: 100%; }
         }
         .typing {
-            animation: typing 2s steps(30, end);
+            animation: typing 0.02s steps(3, end);
         }
         @keyframes blink-caret {
             from, to { border-color: transparent; }
@@ -188,14 +189,30 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
             modules.forEach((module, index) => {
                 setTimeout(() => {
                     module.classList.add('typing');
-                    module.style.animation = `typing 5s steps(30, end)`;
+                    module.style.animation = `typing 5s steps(30, end) forwards`;
                     setTimeout(() => {
                         module.classList.remove('typing');
-                    }, 2000); // Duration of the typing animation
+                    }, 2000000); // Duration of the typing animation
                 }, delay);
-                delay += 2000; // Delay for the next module to start typing
+                delay += 200000; // Delay for the next module to start typing
             });
-        
+        //     document.addEventListener("DOMContentLoaded", function() {
+        //     const modules = document.querySelectorAll('.modules div');
+        //     let delay = 0;
+            
+        //     modules.forEach((module, index) => {
+        //         setTimeout(() => {
+        //             module.classList.add('typing');
+        //             module.style.animation = `typing 2s steps(30, end) forwards`;
+        //             setTimeout(() => {
+        //                 module.classList.remove('typing');
+        //             }, 2000); // Duration of the typing animation (should match animation duration)
+        //         }, delay);
+        //         delay += 2000; // Delay for the next module to start typing (should match animation duration)
+        //     });
+        // });
+
+
             const inputLine = document.querySelector('.input-line');
             const input = document.getElementById('terminal-input');
             input.addEventListener('keypress', function(event) {
