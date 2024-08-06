@@ -16,7 +16,7 @@
             height: 100%;
             width: 100%;
             margin: 0;
-            overflow-y: auto; /* Allow scrolling if content overflows */
+            overflow-y: auto; 
         }
         .ascii-art  {
             color: rgba(144, 159, 205, 1);
@@ -59,7 +59,7 @@
             margin-top: 10px;
             overflow: hidden; /* Ensures the text is hidden until typed */
             white-space: nowrap; /* Prevents text from wrapping */
-            animation: typing 2s steps(30, end);
+            animation: typing 0.2s steps(30, end);
         }
         .modules .highlight {
             color: rgba(255, 255, 255, 1);
@@ -187,7 +187,7 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
             modules.forEach((module, index) => {
                 setTimeout(() => {
                     module.classList.add('typing');
-                    module.style.animation = `typing 2s steps(30, end)`;
+                    module.style.animation = `typing 5s steps(30, end)`;
                     setTimeout(() => {
                         module.classList.remove('typing');
                     }, 2000); // Duration of the typing animation
