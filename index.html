@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vishesh Labs</title>
+    <title>VishLabs</title>
     <style>
         body {
             background-color: rgba(6, 5, 35, 1);
@@ -12,21 +12,38 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Align items to the top */
             height: 100vh;
             margin: 0;
+            overflow-y: auto; /* Allow scrolling if content overflows */
         }
-        .ascii-art {
+        .ascii-art  {
             color: rgba(144, 159, 205, 1);
             text-align: center;
             white-space: pre;
-            font-size: 10px;
-        }
-        .soon {
-            color: rgba(144, 159, 205, 1);
-            font-weight: 300;
-            margin-top: 10px;
-        }
+            /* font-size: 10px; */
+            position: fixed; 
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(6, 5, 35, 0.8); /* Adjust opacity for blur effect */
+            backdrop-filter: blur(5px); /* Add blur effect */
+            z-index: 1000; /* Ensure it stays on top */
+            padding: 10px; /* Optional: Add some padding */
+            padding-bottom: 40px;
+            }
+            .soon {
+                color: rgba(144, 159, 205, 1);
+                font-size: x-small;
+                font-weight: 300;
+                position: fixed; /* Fix the position of the soon element */
+                top: 115px; /* Position it below the ASCII art */
+                left: 0;
+                right: 0;
+                text-align: center; /* Center the text */
+                font-family: 'JetBrains Mono', monospace;
+                z-index: 1000; /* Ensure it stays on top */
+            }
         .modules {
             color: rgba(102, 120, 172, 1);
             font-weight: 700;
@@ -34,11 +51,12 @@
             text-align: left;
             align-self: flex-start; /* Aligns the modules to the left */
             padding-left: 20px; /* Optional: Adds some padding from the left edge */
+            width: 100%;
+            margin-top: 150px; /* Add margin to push content below the fixed ASCII art */
         }
         .modules div {
             margin-top: 10px;
             overflow: hidden; /* Ensures the text is hidden until typed */
-            border-right: .15em solid rgba(102, 120, 172, 1); /* Cursor effect */
             white-space: nowrap; /* Prevents text from wrapping */
             animation: typing 2s steps(30, end);
         }
@@ -47,63 +65,56 @@
         }
         .modules .highlight2 {
             color: rgba(255, 255, 255, 1);
-           
         }
         @keyframes typing {
             from { width: 0; }
             to { width: 100%; }
         }
-
-        ::selection {
-            background: rgba(144, 159, 205, 1); /* Change background color of selection */
+        .typing {
+            animation: typing 2s steps(30, end);
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: rgba(255, 255, 255, 1); } /* Change cursor color here */
+        }
+        .terminal-input {
+            background-color: rgba(6, 5, 35, 1);
+            color: rgba(144, 159, 205, 1);
+            border: none;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            flex-grow: 1;
+            /* border-right: .15em solid rgba(255, 255, 255, 1); Cursor color */
+            animation: blink-caret .75s step-end infinite;
+        }
+        .terminal-input::selection {
+            background: rgb(148, 162, 202); /* Change background color of selection */
             color: rgba(255, 255, 255, 1); /* Change text color of selection */
         }
-        .typing {
-            animation: typing 2s steps(2, end);
+        .input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .user-output {
+            color: rgba(144, 159, 205, 1);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 10px;
         }
         @media (max-width: 600px) {
             .ascii-art {
                 font-size: 4px; /* Smaller font size for mobile devices */
             }
-            .modules{
+            .modules {
                 font-size: 12px;
             }
         }
-        @media (min-width: 300) {
+        @media (min-width: 300px) {
             .ascii-art {
                 font-size: 4px; /* Smaller font size for mobile devices */
                 font-weight: 12px;
             }
-        }
-        .input-line {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-        .terminal-input {
-            font-family: 'JetBrains Mono', monospace;
-            background-color: rgba(6, 5, 35, 1);
-            color: rgba(144, 159, 205, 1);
-            border: none;
-            outline: none;
-            font-size: 16px;
-            flex-grow: 1;
-            border-right: .15em solid rgba(255, 255, 255, 1); /* Cursor color */
-            animation: blink-caret .75s step-end infinite;
-        }
-        .terminal-input::selection {
-            font-family: 'JetBrains Mono', monospace;
-            background: rgb(148, 162, 202); /* Change background color of selection */
-            font-size: 16px;
-            color: rgba(255, 255, 255, 1); /* Change text color of selection */
-        }
-        .user-output {
-            color: rgba(144, 159, 205, 1);
-            font-weight: 300;
-            margin-top: 10px;
-            font-family: 'JetBrains Mono', monospace;
         }
     </style>
 </head>
@@ -130,55 +141,135 @@ v:::v          i::::::i s:::::::::::ss  h:::::h     h:::::h     l::::::l a::::::
 vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaaaaa  aaaabbbbbbbbbbbbbbbb     sssssssssss    
                                                                                                                     
     </div>
-    <div class="soon">--soon</div>
+    <div class="soon"><i>--Vishesh's Laboratory: A Scientific Welcome!</i></div>
     <div class="modules">
         <div>$vishesh_labs->projects</div>
         <span class="highlight"><div> > os:connected to https://github.com/vishesh9131?tab=repositories  </div></span>
         <div>$vishesh_labs/modules/sandbox/<span class="highlight">*</span> </div>
-        <div>$vishesh_labs/modules/hosted/<span class="highlight">corerec.io</span></div>
-        <div>$vishesh_labs/CoreRec/Github/<span class="highlight">CoreRec</span></div>
+        <div>$vishesh_labs/modules/hosted/<span class="highlight">corerec.site</span></div>
+        <div>$vishesh_labs/CoreRec/Github/<span class="highlight">corerec.git</span></div>
         <div>$vishesh_labs/CoreRec/GTransformer/<span class="highlight">GTransformer</span></div>
         <div>$vishesh_labs/modules/hosted/<span class="highlight">MCA-RANK-Finder</span></div>
         <div>$vishesh_labs/modules/sandbox/<span class="highlight">VISH-gpt</span></div>
         <div>$vishesh_labs/modules/sandbox/<span class="highlight">SLYRIC</span></div>
         <div>$vishesh_labs/modules/<span class="highlight">MASS-Memory_Aware_Scheduling_System</span></div>
-        <div>$vishesh_labs/modules/<span class="highlight">CNN Driven_Leukemia_Detector </span></div>
+        <div>$vishesh_labs/modules/<span class="highlight">CNN_Driven_Leukemia_Detector </span></div>
         <div>$vishesh_labs/modules/sandbox/<span class="highlight">StackOverflow_Salary_Analysis</span></div>
         <div>$farzadab/contribution/<span class="highlight">IntraLanguageInterfaces</span></div>
+        <span class="highlight"><div> > os:Just type name of 'module_name' and 'Enter' to open it   </div></span>
         <div class="input-line">
             <span>$vishesh_labs/</span><input type="text" class="terminal-input" id="terminal-input" autofocus>
-        </div>
+        </div> 
     </div>
     <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const modules = document.querySelectorAll('.modules div');
-    let delay = 0;
+        document.addEventListener("DOMContentLoaded", function() {
+            const modules = document.querySelectorAll('.modules div');
+            let delay = 0;
+        
+            modules.forEach((module, index) => {
+                setTimeout(() => {
+                    module.classList.add('typing');
+                    module.style.animation = `typing 2s steps(30, end)`;
+                    setTimeout(() => {
+                        module.classList.remove('typing');
+                    }, 2000); // Duration of the typing animation
+                }, delay);
+                delay += 2000; // Delay for the next module to start typing
+            });
+        
+            const inputLine = document.querySelector('.input-line');
+            const input = document.getElementById('terminal-input');
+            input.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const userInput = input.value.trim().toLowerCase();
+                const newLine = document.createElement('div');
+                newLine.textContent = `$vishesh_labs/${userInput}`;
+                newLine.classList.add('user-output');
+                inputLine.insertAdjacentElement('beforebegin', newLine);
+                input.value = ''; // Clear the input field
 
-    modules.forEach((module, index) => {
-        setTimeout(() => {
-            module.classList.add('typing');
-            module.style.animation = `typing 2s steps(30, end)`;
-            setTimeout(() => {
-                module.classList.remove('typing');
-                module.style.borderRight = 'none';
-            }, 2); // Duration of the typing animation
-        }, delay);
-        delay += 2; // Delay for the next module to start typing
-    });
+                if (userInput === 'corerec.site' || 
+                    userInput === 'corerec.git' || 
+                    userInput === 'corerec' || userInput === 'c' ||
+                    userInput === 'gtransformer' || 
+                    userInput === 'mca-rank-finder' || userInput === 'mrf' ||   userInput === 'rankdekho'||
+                    userInput === 'vishgpt' || userInput === 'vish' ||
+                    userInput === 'slyric' || userInput === 's'||
+                    userInput==='mass' || userInput==='m' ||
+                    userInput === 'cnn_driven_leukemia_detector' || userInput === 'cdld'||
+                    userInput === 'corerec.med' ||
+                    userInput === 'stackoverflow_salary_analysis' || userInput === 'ssa'||
+                    userInput === 'IntraLanguageInterfaces' || userInput === 'ili' ||
+                    userInput === '*' || userInput === 'sun'||
+                    userInput==='23'
+                ) {
+                    const countdownLine = document.createElement('div');
+                    countdownLine.classList.add('user-output');
+                    newLine.insertAdjacentElement('afterend', countdownLine);
 
-    const input = document.getElementById('terminal-input');
-    input.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            const userInput = input.value;
-            const newLine = document.createElement('div');
-            newLine.textContent = '> os : Coming Soon';
-            newLine.classList.add('user-output');
-            input.parentElement.insertAdjacentElement('afterend', newLine);
-            input.value = ''; // Clear the input field
-        }
+                    let countdown = 1;
+                    countdownLine.textContent = `Redirecting in ${countdown}...`;
+                    const countdownInterval = setInterval(() => {
+                        countdown--;
+                        if (countdown > 0) {
+                            countdownLine.textContent = `Redirecting in ${countdown}...`;
+                        } else {
+                            clearInterval(countdownInterval);
+                            countdownLine.textContent = 'Opening Now...';
+                            setTimeout(() => {
+                                if (userInput === 'corerec.site') {
+                                    window.open('https://vishesh9131.github.io/corerec-doc-site/', '_blank');
+                                } else if (userInput === 'corerec.git') {
+                                    window.open('https://github.com/vishesh9131/CoreRec/blob/main/README.md', '_blank');
+                                } else if (userInput === 'corerec.med') {
+                                    window.open('https://medium.com/@sciencely98/exploring-graph-analysis-and-recommendation-with-vishgraphs-and-corerec-51e696ee6e59', '_blank');
+                                } 
+                                else if (userInput === 'corerec' || userInput === 'c') {
+                                    window.open('https://github.com/vishesh9131/CoreRec/blob/main/', '_blank');
+                                } else if (userInput === 'gtransformer') {
+                                    window.open('https://github.com/vishesh9131/CoreRec/blob/main/src/USECASES/transfmodel.py', '_blank');
+                                } else if (userInput === 'vishgpt' || userInput === 'vish') {
+                                    window.open('https://vishgpt.streamlit.app', '_blank');
+                                } else if (userInput === 'mca-rank-finder' || userInput === 'mrf' ||  userInput === 'rankdekho' ) {
+                                    window.open('https://rankdekho2.streamlit.app', '_blank');
+                                } else if (userInput === 'slyric' || userInput === 's') {
+                                    window.open('https://github.com/vishesh9131/SLYRIC/blob/main/README.md', '_blank');
+                                } else if (userInput === 'mass' || userInput === 'm') {
+                                    window.open('https://github.com/vishesh9131/MASS/blob/main/README.md', '_blank');
+                                } else if (userInput === 'cnn_driven_leukemia_detector' || userInput === 'cdld') {
+                                    window.open('https://github.com/vishesh9131/Detecting-Leukemia-Using-Convolutinal-Neural-Network-/blob/main/README.md', '_blank');
+                                } else if (userInput === 'stackoverflow_salary_analysis' || userInput === 'ssa') {
+                                    window.open('https://github.com/vishesh9131/Software-Developer-Salary-Prediction/blob/main/README.md', '_blank');
+                                } else if (userInput === 'IntraLanguageInterfaces' || userInput === 'ili') {
+                                    window.open('https://github.com/farzadab/intraLanguageInterfaces.git', '_blank');
+                                }  else if (userInput === '*' || userInput === 'sun') {
+                                    window.open('https://github.com/vishesh9131?tab=repositories', '_blank');
+                                }  else if (userInput === '23') {
+                                    
+           
+                                } 
+                                
+                                
+                                // Add a new line after the link is opened
+                                const linkOpenedLine = document.createElement('div');
+                                linkOpenedLine.textContent = 'Link opened successfully.';
+                                linkOpenedLine.classList.add('user-output');
+                                countdownLine.insertAdjacentElement('afterend', linkOpenedLine);
+                                // Move the input line below the new message
+                                linkOpenedLine.insertAdjacentElement('afterend', inputLine);
+                            }, 100); // Small delay before opening the URL
+                        }
+                    }, 1000); // 1 second interval for countdown
+                } else {
+                    const errorLine = document.createElement('div');
+                    errorLine.textContent = 'Command not recognized';
+                    errorLine.classList.add('user-output');
+                    newLine.insertAdjacentElement('afterend', errorLine);
+                }
+            }
+        });
     });
-});
-    </script>
+</script>
 </body>
 </html>
