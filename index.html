@@ -32,19 +32,19 @@
             z-index: 1000; /* Ensure it stays on top */
             padding: 10px; /* Optional: Add some padding */
             padding-bottom: 40px;
-            }
-            .soon {
-                color: rgba(144, 159, 205, 1);
-                font-size: x;
-                font-weight: 300;
-                position: fixed; /* Fix the position of the soon element */
-                top: 215px; /* Position it below the ASCII art */
-                left: 0;
-                right: 0;
-                text-align: center; /* Center the text */
-                font-family: 'JetBrains Mono', monospace;
-                z-index: 1000; /* Ensure it stays on top */
-            }
+        }
+        .soon {
+            color: rgba(144, 159, 205, 1);
+            font-size: 1rem; /* Adjusted font size */
+            font-weight: 300;
+            position: fixed; /* Fix the position of the soon element */
+            top: 215px; /* Position it below the ASCII art */
+            left: 0;
+            right: 0;
+            text-align: center; /* Center the text */
+            font-family: 'JetBrains Mono', monospace;
+            z-index: 1000; /* Ensure it stays on top */
+        }
         .modules {
             color: rgba(102, 120, 172, 1);
             font-weight: 700;
@@ -104,21 +104,34 @@
             margin-top: 10px;
         }
         @media (max-width: 600px), (max-device-width: 600px) {
+            .body{height: 100%;}
             .ascii-art {
-                font-size: 6px; /* Smaller font size for mobile devices */
+                font-size: 4px; /* Smaller font size for mobile devices */
             }
             .soon {
-                top: 150px;
-                font-size: x-small;
+                top: 110px;
+                font-size: 0.5rem; /* Adjusted font size */
             }
             .modules {
-                margin-top: 200px; /* Add margin to push content below the fixed ASCII art */
+                font-size: 8px;
+                color: rgba(102, 120, 172, 1);
+                font-weight: 700;
+                margin-top: 150px; /* Adjusted margin */
+                text-align: left;
+                align-self: flex-start;
+                padding: 0 20px; /* Added padding on both sides */
+                width: calc(100% - 40px); /* Adjust width to account for padding */
+                box-sizing: border-box; /* Include padding in width calculation */
+                }
+            .modules div {
+                margin-top: 10px;
+                white-space: normal; /* Allow text to wrap */
+                word-wrap: break-word; /* Break long words if necessary */
+                overflow-wrap: break-word; /* Alternative to word-wrap for better browser support */
+                line-height: 1.4; /* Improve readability of wrapped text */
+                }
 
-                font-size: 10px;
-            }
         }
-
-        
     </style>
 </head>
 <body>
@@ -135,12 +148,11 @@ v:::::v         v:::::v i:::::i   ss::::::::::s  h::::hh:::::hhh          l::::l
 v:::::v       v:::::v   i::::i ss:::::::::::::s h::::::::::::::hh        l::::l   aaaaaaaaa:::::a b::::::::::::::::b ss:::::::::::::s 
 v:::::v     v:::::v    i::::i s::::::ssss:::::sh:::::::hhh::::::h       l::::l            a::::a b:::::bbbbb:::::::bs::::::ssss:::::s
 v:::::v   v:::::v     i::::i  s:::::s  ssssss h::::::h   h::::::h      l::::l     aaaaaaa:::::a b:::::b    b::::::b s:::::s  ssssss 
-v:::::v v:::::v      i::::i    s::::::s      h:::::h     h:::::h      l::::l   aa::::::::::::a b:::::b     b:::::b   s::::::s      
-v:::::v:::::v       i::::i       s::::::s   h:::::h     h:::::h      l::::l  a::::aaaa::::::a b:::::b     b:::::b      s::::::s   
+v:::::v v:::::v      i::::i    s::::::s      h:::::h     h:::::h      l::::l   aa::::aaaa:::::a b:::::b     b:::::b   s::::::s      
+v:::::v:::::v       i::::i       s::::::s   h:::::h     h:::::h      l::::l  a::::a    a:::::a b:::::b     b:::::b      s::::::s   
 v:::::::::v        i::::i ssssss   s:::::s h:::::h     h:::::h      l::::l a::::a    a:::::a b:::::b     b:::::bssssss   s:::::s 
-v:::::::v        i::::::is:::::ssss::::::sh:::::h     h:::::h     l::::::la::::a    a:::::a b:::::b     b:::::b      s::::::s   
-v:::::v         i::::::is::::::::::::::s h:::::h     h:::::h     l::::::la:::::aaaa::::::a b::::::::::::::::b s::::::::::::::s 
-v:::v          i::::::i s:::::::::::ss  h:::::h     h:::::h     l::::::l a::::::::::aa:::ab:::::::::::::::b   s:::::::::::ss  
+v:::::::v        i::::::is:::::ssss::::::sh:::::h     h:::::h     l::::::la:::::aaaa::::::a b::::::::::::::::b s::::::::::::::s 
+v:::::v         i::::::is::::::::::::::s h:::::h     h:::::h     l::::::la::::::::::aa:::ab:::::::::::::::b   s:::::::::::ss  
 vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaaaaa  aaaabbbbbbbbbbbbbbbb     sssssssssss    
                                                                                                                     
     </div>
