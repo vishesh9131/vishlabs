@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">    
     <title>VishLabs</title>
     <style>
         body {
+            padding-bottom: env(safe-area-inset-bottom);
             background-color: rgba(6, 5, 35, 1);
             color: rgba(144, 159, 205, 1);
             font-family: 'JetBrains Mono', monospace;
@@ -46,6 +48,7 @@
             z-index: 1000; /* Ensure it stays on top */
         }
         .modules {
+            padding-bottom: 60px; 
             color: rgba(102, 120, 172, 1);
             font-weight: 700;
             margin-top: 20px;
@@ -94,9 +97,14 @@
             color: rgba(255, 255, 255, 1); /* Change text color of selection */
         }
         .input-line {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
+            position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(6, 5, 35, 0.9);
+        padding: 10px 20px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+        z-index: 1001;
         }
         .user-output {
             color: rgba(144, 159, 205, 1);
@@ -117,6 +125,7 @@
                 color: rgba(102, 120, 172, 1);
                 font-weight: 700;
                 margin-top: 150px; /* Adjusted margin */
+                margin-bottom: 60px;
                 text-align: left;
                 align-self: flex-start;
                 padding: 0 20px; /* Added padding on both sides */
@@ -130,6 +139,18 @@
                 overflow-wrap: break-word; /* Alternative to word-wrap for better browser support */
                 line-height: 1.4; /* Improve readability of wrapped text */
                 }
+            .terminal-input {
+            background-color: rgba(6, 5, 35, 1);
+            color: rgba(144, 159, 205, 1);
+            border: none;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            flex-grow: 1;
+            /* border-right: .15em solid rgba(255, 255, 255, 1); Cursor color */
+            animation: blink-caret .75s step-end infinite;
+        }
+
 
         }
     </style>
