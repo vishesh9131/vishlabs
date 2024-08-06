@@ -13,7 +13,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start; /* Align items to the top */
-            height: 100vh;
+            height: 100%;
+            width: 100%;
             margin: 0;
             overflow-y: auto; /* Allow scrolling if content overflows */
         }
@@ -21,7 +22,7 @@
             color: rgba(144, 159, 205, 1);
             text-align: center;
             white-space: pre;
-            /* font-size: 10px; */
+            font-size: 30%;
             position: fixed; 
             top: 0;
             left: 0;
@@ -34,10 +35,10 @@
             }
             .soon {
                 color: rgba(144, 159, 205, 1);
-                font-size: x-small;
+                font-size: x;
                 font-weight: 300;
                 position: fixed; /* Fix the position of the soon element */
-                top: 115px; /* Position it below the ASCII art */
+                top: 215px; /* Position it below the ASCII art */
                 left: 0;
                 right: 0;
                 text-align: center; /* Center the text */
@@ -52,7 +53,7 @@
             align-self: flex-start; /* Aligns the modules to the left */
             padding-left: 20px; /* Optional: Adds some padding from the left edge */
             width: 100%;
-            margin-top: 150px; /* Add margin to push content below the fixed ASCII art */
+            margin-top: 270px; /* Add margin to push content below the fixed ASCII art */
         }
         .modules div {
             margin-top: 10px;
@@ -102,20 +103,22 @@
             font-family: 'JetBrains Mono', monospace;
             margin-top: 10px;
         }
-        @media (max-width: 600px) {
+        @media (max-width: 600px), (max-device-width: 600px) {
             .ascii-art {
-                font-size: 4px; /* Smaller font size for mobile devices */
+                font-size: 6px; /* Smaller font size for mobile devices */
+            }
+            .soon {
+                top: 150px;
+                font-size: x-small;
             }
             .modules {
-                font-size: 12px;
+                margin-top: 200px; /* Add margin to push content below the fixed ASCII art */
+
+                font-size: 10px;
             }
         }
-        @media (min-width: 300px) {
-            .ascii-art {
-                font-size: 4px; /* Smaller font size for mobile devices */
-                font-weight: 12px;
-            }
-        }
+
+        
     </style>
 </head>
 <body>
