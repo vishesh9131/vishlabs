@@ -229,6 +229,9 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
             const input = document.getElementById('terminal-input');
             let isDeleting = false;
 
+            let hackerScreenInterval;
+            let isHackerScreenActive = false;
+
             input.addEventListener('input', function () {
                 if (isDeleting) {
                     return;
@@ -382,7 +385,16 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                     const command = userInput.split(' ')[0];
                     const arg = userInput.split(' ').slice(1).join(' ');
 
-                    if (commands[command]) {
+                    if (userInput === '101') {
+                        if (!isHackerScreenActive) {
+                            generateHackerScreen();
+                        }
+                    } else if (userInput === 'stop') {
+                        if (isHackerScreenActive) {
+                            clearInterval(hackerScreenInterval);
+                            isHackerScreenActive = false;
+                        }
+                    } else if (commands[command]) {
                         const output = typeof commands[command] === 'function' ? commands[command](arg) : commands[command];
                         if (output) {
                             const commandOutput = document.createElement('div');
@@ -530,6 +542,20 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                 newLine.textContent = creditText;
                 newLine.classList.add('user-output');
                 inputLine.insertAdjacentElement('beforebegin', newLine);
+            }
+
+            function generateHackerScreen() {
+                isHackerScreenActive = true;
+                hackerScreenInterval = setInterval(() => {
+                    const randomNumbers = Array.from({ length: 100}, () => Math.floor(Math.random() * 1000000)).join('');
+                    const hackerLine = document.createElement('div');
+                    hackerLine.textContent = randomNumbers;
+                    hackerLine.classList.add('user-output');
+                    inputLine.insertAdjacentElement('beforebegin', hackerLine);
+
+                    // Scroll to the bottom of the page
+                    window.scrollTo(0, document.body.scrollHeight);
+                }, 100);
             }
         });
     </script>
