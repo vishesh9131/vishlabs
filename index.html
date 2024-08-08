@@ -114,28 +114,39 @@
             overflow: auto;
         }
         @media (max-width: 600px), (max-device-width: 600px) {
-            .body{height: 100%;}
+            .input-line{
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                /* background-color: rgba(6, 5, 35, 1);  */
+                background-color: rgba(6, 5, 35, 0.8); /* Adjust opacity for blur effect */
+                backdrop-filter: blur(1px); /* Add blur effect */
+                padding: 10px; /* Add some padding */
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow for better visibility */
+                }
             .ascii-art {
-                font-size: 4px; /* Smaller font size for mobile devices */
+                font-size: 3.3px; /* Smaller font size for mobile devices */
             }
             .soon {
                 top: 110px;
                 font-size: 0.5rem; /* Adjusted font size */
             }
             .terminal-input{
-                font-size: 16px;
+                font-size: 7px;
                 /* width: 140px; */
-                width: 60%;
+                width: 55%;
 
             }
             .modules {
-                font-size: 16px;
+                font-size: 7px;
                 color: rgba(102, 120, 172, 1);
                 font-weight: 700;
                 margin-top: 150px; /* Adjusted margin */
                 text-align: left;
                 align-self: flex-start;
                 padding: 0 10px; /* Added padding on both sides */
+                padding-bottom: 40px;
                 width: calc(100% - 4px); /* Adjust width to account for padding */
                 box-sizing: border-box; /* Include padding in width calculation */
                 }
@@ -194,10 +205,10 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
         </div> 
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const modules = document.querySelectorAll('.modules div');
             let delay = 0;
-    
+
             modules.forEach((module, index) => {
                 setTimeout(() => {
                     module.classList.add('typing');
@@ -208,10 +219,10 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                 }, delay);
                 delay += 200000; // Delay for the next module to start typing
             });
-    
+
             const inputLine = document.querySelector('.input-line');
             const input = document.getElementById('terminal-input');
-            input.addEventListener('keypress', function(event) {
+            input.addEventListener('keypress', function (event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
                     const userInput = input.value.trim().toLowerCase();
@@ -220,24 +231,123 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                     newLine.classList.add('user-output');
                     inputLine.insertAdjacentElement('beforebegin', newLine);
                     input.value = ''; // Clear the input field
-    
+
                     // Scroll to the bottom of the page
                     window.scrollTo(0, document.body.scrollHeight);
-    
+
                     // Handle common terminal commands
-                    if (userInput === 'ls') {
+                    const commands = {
+                        'ls': [
+                            'CoreRec Repository : type "c" or "corerec"',
+                            'CoreRec Medium : type "corerec.med"',
+                            'CoreRec Website : type "corerec.site"',
+                            'GTransformer : type "gtransformer"',
+                            'MCA-RANK-Finder : tpye "mrf" or "mca-rank-finder" or "rankdekho"',
+                            'VISH-gpt : tpye "vish-gpt" or "vish"',
+                            'SLYRIC : tpye "slyric" or "s"',
+                            'MASS : type "mass" or "m"',
+                            'CNN_Driven_Leukemia_Detector : type "cdld" or "cnn_driven_leukemia_detector"',
+                            'StackOverflow_Salary_Analysis : type "ssa" or "stackoverflow_salary_analysis"',
+                            'IntraLanguageInterfaces : type "intralanguageinterfaces"'
+                        ],
+                        'pwd': '/home/vishesh_labs',
+                        'cd': (arg) => `Changed directory to ${arg}`,
+                        'clr': () => {
+                            const outputs = document.querySelectorAll('.user-output');
+                            outputs.forEach(output => output.remove());
+                            return '';
+                        },
+                        'clear': () => {
+                            const outputs = document.querySelectorAll('.user-output');
+                            outputs.forEach(output => output.remove());
+                            return '';
+                        },
+                        'date': new Date().toString(),
+                        'echo': (arg) => arg,
+                        'help': 'Available commands: ls, pwd, cd, clr, clear, date, echo, help, ... (and more)',
+                        'whoami': 'vishesh_labs',
+                        'uname': 'Linux',
+                        'hostname': 'vishesh_labs_host',
+                        'uptime': 'up 1 day, 2:34, 3 users, load average: 0.00, 0.01, 0.05',
+                        'df': 'Filesystem     1K-blocks    Used Available Use% Mounted on\n/dev/sda1      102400000 2048000  100352000   2% /',
+                        'du': '4.0K    ./projects\n4.0K    ./modules\n4.0K    ./hosted\n12K     .',
+                        'free': '              total        used        free      shared  buff/cache   available\nMem:        1024000      204800      819200       10240       20480      819200\nSwap:       1024000           0     1024000',
+                        'ps': '  PID TTY          TIME CMD\n    1 ?        00:00:01 init\n    2 ?        00:00:00 kthreadd\n    3 ?        00:00:00 ksoftirqd/0',
+                        'top': 'top - 00:00:01 up 1 day,  2:34,  3 users,  load average: 0.00, 0.01, 0.05\nTasks:  123 total,    1 running,  122 sleeping,    0 stopped,    0 zombie\n%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st\nKiB Mem :  1024000 total,   204800 used,   819200 free,    10240 shared,    20480 buff/cache,   819200 available\nKiB Swap:  1024000 total,        0 used,  1024000 free.',
+                        'kill': 'Usage: kill [options] <pid>...',
+                        'ping': 'PING google.com (172.217.164.110): 56 data bytes\n64 bytes from 172.217.164.110: icmp_seq=0 ttl=54 time=10.123 ms\n64 bytes from 172.217.164.110: icmp_seq=1 ttl=54 time=10.456 ms',
+                        'ifconfig': 'eth0      Link encap:Ethernet  HWaddr 00:0a:95:9d:68:16\n          inet addr:192.168.1.2  Bcast:192.168.1.255  Mask:255.255.255.0\n          inet6 addr: fe80::20a:95ff:fe9d:6816/64 Scope:Link\n          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1\n          RX packets:0 errors:0 dropped:0 overruns:0 frame:0\n          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0\n          collisions:0 txqueuelen:1000 \n          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)',
+                        'netstat': 'Active Internet connections (w/o servers)\nProto Recv-Q Send-Q Local Address           Foreign Address         State\ntcp        0      0 192.168.1.2:22          192.168.1.1:12345       ESTABLISHED',
+                        'traceroute': 'traceroute to google.com (172.217.164.110), 30 hops max, 60 byte packets\n 1  192.168.1.1 (192.168.1.1)  1.123 ms  1.456 ms  1.789 ms\n 2  10.0.0.1 (10.0.0.1)  2.123 ms  2.456 ms  2.789 ms\n 3  172.217.164.110 (172.217.164.110)  10.123 ms  10.456 ms  10.789 ms',
+                        'curl': 'curl: try \'curl --help\' or \'curl --manual\' for more information',
+                        'wget': 'wget: missing URL\nUsage: wget [OPTION]... [URL]...\n\nTry `wget --help\' for more options.',
+                        'ssh': 'usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-B bind_interface] [-b bind_address] [-c cipher_spec]\n           [-D [bind_address:]port] [-E log_file] [-e escape_char] [-F configfile]\n           [-I pkcs11] [-i identity_file] [-J [user@]host[:port]] [-L address] [-l login_name]\n           [-m mac_spec] [-O ctl_cmd] [-o option] [-p port] [-Q query_option] [-R address]\n           [-S ctl_path] [-W host:port] [-w local_tun[:remote_tun]] destination [command]',
+                        'scp': 'usage: scp [-346ABCpqrTv] [-c cipher] [-F ssh_config] [-i identity_file]\n           [-l limit] [-o ssh_option] [-P port] [-S program] source ... target',
+                        'ftp': 'ftp: command not found',
+                        'telnet': 'telnet: command not found',
+                        'man': 'What manual page do you want?',
+                        'grep': 'Usage: grep [OPTION]... PATTERN [FILE]...\nTry \'grep --help\' for more information.',
+                        'find': 'Usage: find [path...] [expression]',
+                        'locate': 'locate: no pattern to search for specified',
+                        'chmod': 'Usage: chmod [OPTION]... MODE[,MODE]... FILE...\n  or:  chmod [OPTION]... OCTAL-MODE FILE...\n  or:  chmod [OPTION]... --reference=RFILE FILE...\nChange the mode of each FILE to MODE.',
+                        'chown': 'Usage: chown [OPTION]... [OWNER][:[GROUP]] FILE...\n  or:  chown [OPTION]... --reference=RFILE FILE...\nChange the owner and/or group of each FILE to OWNER and/or GROUP.',
+                        'mkdir': 'Usage: mkdir [OPTION]... DIRECTORY...\nCreate the DIRECTORY(ies), if they do not already exist.',
+                        'rmdir': 'Usage: rmdir [OPTION]... DIRECTORY...\nRemove the DIRECTORY(ies), if they are empty.',
+                        'rm': 'Usage: rm [OPTION]... FILE...\nRemove (unlink) the FILE(s).',
+                        'cp': 'Usage: cp [OPTION]... [-T] SOURCE DEST\n  or:  cp [OPTION]... SOURCE... DIRECTORY\n  or:  cp [OPTION]... -t DIRECTORY SOURCE...\nCopy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.',
+                        'mv': 'Usage: mv [OPTION]... [-T] SOURCE DEST\n  or:  mv [OPTION]... SOURCE... DIRECTORY\n  or:  mv [OPTION]... -t DIRECTORY SOURCE...\nRename SOURCE to DEST, or move SOURCE(s) to DIRECTORY.',
+                        'touch': 'Usage: touch [OPTION]... FILE...\nUpdate the access and modification times of each FILE to the current time.',
+                        'head': 'Usage: head [OPTION]... [FILE]...\nPrint the first 10 lines of each FILE to standard output.',
+                        'tail': 'Usage: tail [OPTION]... [FILE]...\nPrint the last 10 lines of each FILE to standard output.',
+                        'cat': 'Usage: cat [OPTION]... [FILE]...\nConcatenate FILE(s) to standard output.',
+                        'less': 'Usage: less [options] [file]',
+                        'more': 'Usage: more [options] [file]',
+                        'nano': 'Usage: nano [options] [[+line[,column]] file]...',
+                        'vim': 'Usage: vim [options] [file]...',
+                        'emacs': 'Usage: emacs [options] [file]...',
+                        'vi': 'Usage: vi [options] [file]...',
+                        'history': 'Usage: history [n]\n       history -c\n       history -d offset\n       history -anrw [filename]\n       history -ps arg [arg...]',
+                        'alias': 'Usage: alias [name[=value] ... ]',
+                        'unalias': 'Usage: unalias name [name ...]',
+                        'export': 'Usage: export [-fn] [name[=value] ...] or export -p',
+                        'unset': 'Usage: unset [-f] [-v] [name ...]',
+                        'source': 'Usage: source filename [arguments]',
+                        'exit': 'exit',
+                        'logout': 'logout',
+                        'shutdown': 'shutdown: Need to be root',
+                        'reboot': 'reboot: Need to be root',
+                        'halt': 'halt: Need to be root',
+                        'poweroff': 'poweroff: Need to be root'
+                    };
+
+                    const command = userInput.split(' ')[0];
+                    const arg = userInput.split(' ').slice(1).join(' ');
+
+                    if (commands[command]) {
+                        const output = typeof commands[command] === 'function' ? commands[command](arg) : commands[command];
+                        if (output) {
+                            const commandOutput = document.createElement('div');
+                            if (Array.isArray(output)) {
+                                commandOutput.innerHTML = output.map(item => `<div>${item}</div>`).join('');
+                            } else {
+                                commandOutput.textContent = output;
+                            }
+                            commandOutput.classList.add('user-output');
+                            newLine.insertAdjacentElement('afterend', commandOutput);
+                        }
+                    } else if (userInput === 'ls') {
                         const lsOutput = document.createElement('div');
-                        lsOutput.textContent = 'projects  modules  hosted  CoreRec  GTransformer  MCA-RANK-Finder  VISH-gpt  SLYRIC  MASS  CNN_Driven_Leukemia_Detector  StackOverflow_Salary_Analysis  IntraLanguageInterfaces';
+                        lsOutput.innerHTML = commands['ls'].map(item => `<div>${item}</div>`).join('');
                         lsOutput.classList.add('user-output');
                         newLine.insertAdjacentElement('afterend', lsOutput);
                     } else if (userInput === 'pwd') {
                         const pwdOutput = document.createElement('div');
-                        pwdOutput.textContent = '/home/vishesh_labs';
+                        pwdOutput.textContent = commands['pwd'];
                         pwdOutput.classList.add('user-output');
                         newLine.insertAdjacentElement('afterend', pwdOutput);
                     } else if (userInput.startsWith('cd ')) {
                         const cdOutput = document.createElement('div');
-                        cdOutput.textContent = `Changed directory to ${userInput.substring(3)}`;
+                        cdOutput.textContent = commands['cd'](userInput.substring(3));
                         cdOutput.classList.add('user-output');
                         newLine.insertAdjacentElement('afterend', cdOutput);
                     } else if (userInput === 'clr' || userInput === 'clear') {
@@ -245,17 +355,17 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                         outputs.forEach(output => output.remove());
                     } else if (userInput === 'date') {
                         const dateOutput = document.createElement('div');
-                        dateOutput.textContent = new Date().toString();
+                        dateOutput.textContent = commands['date'];
                         dateOutput.classList.add('user-output');
                         newLine.insertAdjacentElement('afterend', dateOutput);
-                    } else if (userInput === 'echo') {
+                    } else if (userInput.startsWith('echo ')) {
                         const echoOutput = document.createElement('div');
-                        echoOutput.textContent = userInput.substring(5);
+                        echoOutput.textContent = commands['echo'](userInput.substring(5));
                         echoOutput.classList.add('user-output');
                         newLine.insertAdjacentElement('afterend', echoOutput);
                     } else if (userInput === 'help') {
                         const helpOutput = document.createElement('div');
-                        helpOutput.textContent = 'Available commands: ls, pwd, cd, clr, clear, date, echo, help';
+                        helpOutput.textContent = commands['help'];
                         helpOutput.classList.add('user-output');
                         newLine.insertAdjacentElement('afterend', helpOutput);
                     } else if (userInput === 'corerec.site' || userInput === 'corerec.git' || userInput === 'corerec' || userInput === 'c' ||
@@ -265,11 +375,11 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                         userInput === 'corerec.med' || userInput === 'stackoverflow_salary_analysis' || userInput === 'ssa' ||
                         userInput === 'IntraLanguageInterfaces' || userInput === 'ili' || userInput === '*' || userInput === 'sun' ||
                         userInput === '23') {
-                            
+
                         const countdownLine = document.createElement('div');
                         countdownLine.classList.add('user-output');
                         newLine.insertAdjacentElement('afterend', countdownLine);
-    
+
                         let countdown = 1;
                         countdownLine.textContent = `Redirecting in ${countdown}...`;
                         const countdownInterval = setInterval(() => {
@@ -307,9 +417,9 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                                     } else if (userInput === '*' || userInput === 'sun') {
                                         window.open('https://github.com/vishesh9131?tab=repositories', '_blank');
                                     } else if (userInput === '23') {
-                                        // Additional logic if needed
+                                        //Additional logic if needed
                                     }
-    
+
                                     // Add a new line after the link is opened
                                     const linkOpenedLine = document.createElement('div');
                                     linkOpenedLine.textContent = 'Link opened successfully.';
@@ -321,12 +431,28 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                             }
                         }, 1000); // 1 second interval for countdown
                     } else {
-                        const errorLine = document.createElement('div');
-                        errorLine.textContent = 'Command not recognized';
-                        errorLine.classList.add('user-output');
-                        newLine.insertAdjacentElement('afterend', errorLine);
+                        const command = userInput.split(' ')[0];
+                        const arg = userInput.split(' ').slice(1).join(' ');
+
+                        if (commands[command]) {
+                            const output = typeof commands[command] === 'function' ? commands[command](arg) : commands[command];
+                            if (output) {
+                                const commandOutput = document.createElement('div');
+                                if (Array.isArray(output)) {
+                                    commandOutput.innerHTML = output.map(item => `<div>${item}</div>`).join('');
+                                } else {
+                                    commandOutput.textContent = output;
+                                }
+                                commandOutput.classList.add('user-output');
+                                newLine.insertAdjacentElement('afterend', commandOutput);
+                            }
+                        } else {
+                            const errorLine = document.createElement('div');
+                            errorLine.textContent = 'Command not recognized';
+                            errorLine.classList.add('user-output');
+                            newLine.insertAdjacentElement('afterend', errorLine);
+                        }
                     }
-    
                     // Scroll to the bottom after processing the input
                     window.scrollTo(0, document.body.scrollHeight);
                 }
@@ -334,4 +460,5 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
         });
     </script>
 </body>
+
 </html>
