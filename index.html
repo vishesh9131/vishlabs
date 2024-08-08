@@ -180,7 +180,7 @@ v:::::v     v:::::v    i::::i s::::::ssss:::::sh:::::::hhh::::::h       l::::l  
 v:::::v   v:::::v     i::::i  s:::::s  ssssss h::::::h   h::::::h      l::::l     aaaaaaa:::::a b:::::b    b::::::b s:::::s  ssssss 
 v:::::v v:::::v      i::::i    s::::::s      h:::::h     h:::::h      l::::l   aa::::aaaa:::::a b:::::b     b:::::b   s::::::s      
 v:::::v:::::v       i::::i       s::::::s   h:::::h     h:::::h      l::::l  a::::a    a:::::a b:::::b     b:::::b      s::::::s   
-v:::::::::v        i::::i ssssss   s:::::s h:::::h     h:::::h      l::::l a::::a    a:::::a b:::::b     b:::::bssssss   s:::::s 
+v:::::::::v        i::::i ssssss   s:::::s h:::::h     h:::::h      l::::l a::::a    a:::::a b:::::b     b:::::b         s:::::s 
 v:::::::v        i::::::is:::::ssss::::::sh:::::h     h:::::h     l::::::la:::::aaaa::::::a b::::::::::::::::b s::::::::::::::s 
 v:::::v         i::::::is::::::::::::::s h:::::h     h:::::h     l::::::la::::::::::aa:::ab:::::::::::::::b   s:::::::::::ss  
 vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaaaaa  aaaabbbbbbbbbbbbbbbb     sssssssssss    
@@ -206,93 +206,6 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
            <div> <span class="lab">$vishesh_labs/</span><input type="text" class="terminal-input" id="terminal-input" list="command-suggestions" 
                    placeholder="Type a command or project name..." 
                    autofocus>
-            <datalist id="command-suggestions">
-                <option value="ls">
-                <option value="pwd">
-                <option value="cd">
-                <option value="clr">
-                <option value="clear">
-                <option value="date">
-                <option value="echo">
-                <option value="help">
-                <option value="whoami">
-                <option value="uname">
-                <option value="hostname">
-                <option value="uptime">
-                <option value="df">
-                <option value="du">
-                <option value="free">
-                <option value="ps">
-                <option value="top">
-                <option value="kill">
-                <option value="ping">
-                <option value="ifconfig">
-                <option value="netstat">
-                <option value="traceroute">
-                <option value="curl">
-                <option value="wget">
-                <option value="ssh">
-                <option value="scp">
-                <option value="ftp">
-                <option value="telnet">
-                <option value="man">
-                <option value="grep">
-                <option value="find">
-                <option value="locate">
-                <option value="chmod">
-                <option value="chown">
-                <option value="mkdir">
-                <option value="rmdir">
-                <option value="rm">
-                <option value="cp">
-                <option value="mv">
-                <option value="touch">
-                <option value="head">
-                <option value="tail">
-                <option value="cat">
-                <option value="less">
-                <option value="more">
-                <option value="nano">
-                <option value="vim">
-                <option value="emacs">
-                <option value="vi">
-                <option value="history">
-                <option value="alias">
-                <option value="unalias">
-                <option value="export">
-                <option value="unset">
-                <option value="source">
-                <option value="exit">
-                <option value="logout">
-                <option value="shutdown">
-                <option value="reboot">
-                <option value="halt">
-                <option value="poweroff">
-                <option value="corerec.site">
-                <option value="corerec.git">
-                <option value="corerec">
-                <option value="c">
-                <option value="gtransformer">
-                <option value="mca-rank-finder">
-                <option value="mrf">
-                <option value="rankdekho">
-                <option value="vishgpt">
-                <option value="vish">
-                <option value="slyric">
-                <option value="s">
-                <option value="mass">
-                <option value="m">
-                <option value="cnn_driven_leukemia_detector">
-                <option value="cdld">
-                <option value="corerec.med">
-                <option value="stackoverflow_salary_analysis">
-                <option value="ssa">
-                <option value="IntraLanguageInterfaces">
-                <option value="ili">
-                <option value="*">
-                <option value="sun">
-                <option value="23">
-            </datalist>
         </div> 
     </div>
     <script>
@@ -313,6 +226,44 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
 
             const inputLine = document.querySelector('.input-line');
             const input = document.getElementById('terminal-input');
+            let isDeleting = false;
+
+            input.addEventListener('input', function () {
+                if (isDeleting) {
+                    return;
+                }
+                const userInput = input.value.toLowerCase();
+                if (userInput === 'vishesh') {
+                    displayCreditText();
+                    input.value = ''; // Clear the input field
+                    return;
+                }
+                const suggestion = commands.find(command => command.startsWith(userInput));
+                if (suggestion && userInput !== suggestion) {
+                    input.value = suggestion;
+                    input.setSelectionRange(userInput.length, suggestion.length);
+                }
+            });
+
+            input.addEventListener('keydown', function (event) {
+                if (event.key === 'Tab') {
+                    event.preventDefault();
+                    const userInput = input.value.toLowerCase();
+                    const suggestion = commands.find(command => command.startsWith(userInput));
+                    if (suggestion) {
+                        input.value = suggestion;
+                    }
+                } else if (event.key === 'Backspace') {
+                    isDeleting = true;
+                }
+            });
+
+            input.addEventListener('keyup', function (event) {
+                if (event.key === 'Backspace') {
+                    isDeleting = false;
+                }
+            });
+
             input.addEventListener('keypress', function (event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
@@ -357,7 +308,7 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                         'echo': (arg) => arg,
                         'help': 'Available commands: ls, pwd, cd, clr, clear, date, echo, help, ... (and more)',
                         'whoami': 'vishesh_labs',
-                        'uname': 'Linux',
+                        'uname': 'vishesh_labs Linux',
                         'hostname': 'vishesh_labs_host',
                         'uptime': 'up 1 day, 2:34, 3 users, load average: 0.00, 0.01, 0.05',
                         'df': 'Filesystem     1K-blocks    Used Available Use% Mounted on\n/dev/sda1      102400000 2048000  100352000   2% /',
@@ -408,7 +359,10 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                         'shutdown': 'shutdown: Need to be root',
                         'reboot': 'reboot: Need to be root',
                         'halt': 'halt: Need to be root',
-                        'poweroff': 'poweroff: Need to be root'
+                        'poweroff': 'poweroff: Need to be root',
+                        'b7':['Credit: Biswajit','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM','CHEEN TAPAK DUMDUM'],
+                        'papa': ['Credit: Vishesh\'s Machines', 'Mob No.: 9131211680','Github : vishesh9131'],
+                        'slyric/team': ['Vishesh Yadav (@vishesh9131)', 'Aarti Nagar(@99aarti)','Biswajit Mohapatra(@ABiswajitMohapatra)','Adhiraj Singh','Ayush soni(147Ayush)']
                     };
 
                     const command = userInput.split(' ')[0];
@@ -548,6 +502,21 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                     window.scrollTo(0, document.body.scrollHeight);
                 }
             });
+
+            const commands = [
+                "ls", "pwd", "cd", "clr", "clear", "date", "echo", "help", "whoami", "uname", "hostname", "uptime", "df", "du", "free", "ps", "top", "kill", "ping", "ifconfig", "netstat", "traceroute", "curl", "wget", "ssh", "scp", "ftp", "telnet", "man", "grep", "find", "locate", "chmod", "chown", "mkdir", "rmdir", "rm", "cp", "mv", "touch", "head", "tail", "cat", "less", "more", "nano", "vim", "emacs", "vi", "history", "alias", "unalias", "export", "unset", "source", "exit", "logout", "shutdown", "reboot", "halt", "poweroff",
+                "corerec.site", "corerec.git", "corerec", "c", "gtransformer", "mca-rank-finder", "mrf", "rankdekho", "vishgpt", "vish", "slyric", "s", "mass", "m", "cnn_driven_leukemia_detector", "cdld", "corerec.med", "stackoverflow_salary_analysis", "ssa", "IntraLanguageInterfaces", "ili", "*", "sun", "23","slyric/team"
+            ];
+
+            function displayCreditText() {
+                const creditText = `
+                    Powered by Vishesh's Machines
+                `;
+                const newLine = document.createElement('div');
+                newLine.textContent = creditText;
+                newLine.classList.add('user-output');
+                inputLine.insertAdjacentElement('beforebegin', newLine);
+            }
         });
     </script>
 </body>
