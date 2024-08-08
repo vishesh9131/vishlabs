@@ -264,6 +264,18 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                 }
             });
 
+            input.addEventListener('focus', function () {
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+
+            input.addEventListener('blur', function () {
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+
+            window.addEventListener('resize', function () {
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+
             input.addEventListener('keypress', function (event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
