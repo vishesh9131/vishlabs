@@ -18,6 +18,7 @@
             margin: 0;
             overflow-y: auto; 
         }
+
         .ascii-art  {
             color: rgba(144, 159, 205, 1);
             text-align: center;
@@ -79,6 +80,7 @@
             from, to { border-color: transparent; }
             50% { border-color: rgba(255, 255, 255, 1); } /* Change cursor color here */
         }
+        
         .terminal-input {
             background-color: rgba(6, 5, 35, 1);
             color: rgba(144, 159, 205, 1);
@@ -87,22 +89,29 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 16px;
             flex-grow: 1;
-            /* border-right: .15em solid rgba(255, 255, 255, 1); Cursor color */
+            width: 90%;
+            /* box-sizing: border-box; */
+            /* border-right: .15em solid rgba(255, 255, 255, 1);  */
             animation: blink-caret .75s step-end infinite;
         }
         .terminal-input::selection {
             background: rgb(148, 162, 202); /* Change background color of selection */
             color: rgba(255, 255, 255, 1); /* Change text color of selection */
         }
+        .input-line div {
+        flex-grow: 1; /* Allow the div containing the input to grow */
+    }
         .input-line {
             display: flex;
             align-items: center;
             margin-top: 10px;
+            box-sizing: border-box;
         }
         .user-output {
             color: rgba(144, 159, 205, 1);
             font-family: 'JetBrains Mono', monospace;
             margin-top: 10px;
+            overflow: auto;
         }
         @media (max-width: 600px), (max-device-width: 600px) {
             .body{height: 100%;}
@@ -115,7 +124,9 @@
             }
             .terminal-input{
                 font-size: 16px;
-                width: 140px;
+                /* width: 140px; */
+                width: 60%;
+
             }
             .modules {
                 font-size: 16px;
@@ -179,14 +190,14 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
         <div>$farzadab/contribution/<span class="highlight">IntraLanguageInterfaces</span></div>
         <span class="highlight"><div> > os:Just type name of 'module_name' and 'Enter' to open it   </div></span>
         <div class="input-line">
-           <div> <span>$vishesh_labs/</span><input type="text" class="terminal-input" id="terminal-input" autofocus></div>
+           <div> <span class="lab">$vishesh_labs/</span><input type="text" class="terminal-input" id="terminal-input" autofocus></div>
         </div> 
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const modules = document.querySelectorAll('.modules div');
             let delay = 0;
-        
+    
             modules.forEach((module, index) => {
                 setTimeout(() => {
                     module.classList.add('typing');
@@ -197,112 +208,130 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                 }, delay);
                 delay += 200000; // Delay for the next module to start typing
             });
-        //     document.addEventListener("DOMContentLoaded", function() {
-        //     const modules = document.querySelectorAll('.modules div');
-        //     let delay = 0;
-            
-        //     modules.forEach((module, index) => {
-        //         setTimeout(() => {
-        //             module.classList.add('typing');
-        //             module.style.animation = `typing 2s steps(30, end) forwards`;
-        //             setTimeout(() => {
-        //                 module.classList.remove('typing');
-        //             }, 2000); // Duration of the typing animation (should match animation duration)
-        //         }, delay);
-        //         delay += 2000; // Delay for the next module to start typing (should match animation duration)
-        //     });
-        // });
-
-
+    
             const inputLine = document.querySelector('.input-line');
             const input = document.getElementById('terminal-input');
             input.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        const userInput = input.value.trim().toLowerCase();
-        const newLine = document.createElement('div');
-        newLine.textContent = `$vishesh_labs/${userInput}`;
-        newLine.classList.add('user-output');
-        inputLine.insertAdjacentElement('beforebegin', newLine);
-        input.value = ''; // Clear the input field
-
-        // Scroll to the bottom of the page
-        window.scrollTo(0, document.body.scrollHeight);
-
-        if (userInput === 'corerec.site' || userInput === 'corerec.git' || userInput === 'corerec' || userInput === 'c' ||
-            userInput === 'gtransformer' || userInput === 'mca-rank-finder' || userInput === 'mrf' || userInput === 'rankdekho' ||
-            userInput === 'vishgpt' || userInput === 'vish' || userInput === 'slyric' || userInput === 's' ||
-            userInput === 'mass' || userInput === 'm' || userInput === 'cnn_driven_leukemia_detector' || userInput === 'cdld' ||
-            userInput === 'corerec.med' || userInput === 'stackoverflow_salary_analysis' || userInput === 'ssa' ||
-            userInput === 'IntraLanguageInterfaces' || userInput === 'ili' || userInput === '*' || userInput === 'sun' ||
-            userInput === '23') {
-                
-            const countdownLine = document.createElement('div');
-            countdownLine.classList.add('user-output');
-            newLine.insertAdjacentElement('afterend', countdownLine);
-
-            let countdown = 1;
-            countdownLine.textContent = `Redirecting in ${countdown}...`;
-            const countdownInterval = setInterval(() => {
-                countdown--;
-                if (countdown > 0) {
-                    countdownLine.textContent = `Redirecting in ${countdown}...`;
-                } else {
-                    clearInterval(countdownInterval);
-                    countdownLine.textContent = 'Opening Now...';
-                    setTimeout(() => {
-                        if (userInput === 'corerec.site') {
-                            window.open('https://vishesh9131.github.io/corerec-doc-site/', '_blank');
-                        } else if (userInput === 'corerec.git') {
-                            window.open('https://github.com/vishesh9131/CoreRec/blob/main/README.md', '_blank');
-                        } else if (userInput === 'corerec.med') {
-                            window.open('https://medium.com/@sciencely98/exploring-graph-analysis-and-recommendation-with-vishgraphs-and-corerec-51e696ee6e59', '_blank');
-                        } else if (userInput === 'corerec' || userInput === 'c') {
-                            window.open('https://github.com/vishesh9131/CoreRec/blob/main/', '_blank');
-                        } else if (userInput === 'gtransformer') {
-                            window.open('https://github.com/vishesh9131/CoreRec/blob/main/src/USECASES/transfmodel.py', '_blank');
-                        } else if (userInput === 'vishgpt' || userInput === 'vish') {
-                            window.open('https://vishgpt.streamlit.app', '_blank');
-                        } else if (userInput === 'mca-rank-finder' || userInput === 'mrf' || userInput === 'rankdekho') {
-                            window.open('https://rankdekho2.streamlit.app', '_blank');
-                        } else if (userInput === 'slyric' || userInput === 's') {
-                            window.open('https://github.com/vishesh9131/SLYRIC/blob/main/README.md', '_blank');
-                        } else if (userInput === 'mass' || userInput === 'm') {
-                            window.open('https://github.com/vishesh9131/MASS/blob/main/README.md', '_blank');
-                        } else if (userInput === 'cnn_driven_leukemia_detector' || userInput === 'cdld') {
-                            window.open('https://github.com/vishesh9131/Detecting-Leukemia-Using-Convolutinal-Neural-Network-/blob/main/README.md', '_blank');
-                        } else if (userInput === 'stackoverflow_salary_analysis' || userInput === 'ssa') {
-                            window.open('https://github.com/vishesh9131/Software-Developer-Salary-Prediction/blob/main/README.md', '_blank');
-                        } else if (userInput === 'IntraLanguageInterfaces' || userInput === 'ili') {
-                            window.open('https://github.com/farzadab/intraLanguageInterfaces.git', '_blank');
-                        } else if (userInput === '*' || userInput === 'sun') {
-                            window.open('https://github.com/vishesh9131?tab=repositories', '_blank');
-                        } else if (userInput === '23') {
-                            // Additional logic if needed
-                        }
-
-                        // Add a new line after the link is opened
-                        const linkOpenedLine = document.createElement('div');
-                        linkOpenedLine.textContent = 'Link opened successfully.';
-                        linkOpenedLine.classList.add('user-output');
-                        countdownLine.insertAdjacentElement('afterend', linkOpenedLine);
-                        // Move the input line below the new message
-                        linkOpenedLine.insertAdjacentElement('afterend', inputLine);
-                    }, 100); // Small delay before opening the URL
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    const userInput = input.value.trim().toLowerCase();
+                    const newLine = document.createElement('div');
+                    newLine.textContent = `$vishesh_labs/${userInput}`;
+                    newLine.classList.add('user-output');
+                    inputLine.insertAdjacentElement('beforebegin', newLine);
+                    input.value = ''; // Clear the input field
+    
+                    // Scroll to the bottom of the page
+                    window.scrollTo(0, document.body.scrollHeight);
+    
+                    // Handle common terminal commands
+                    if (userInput === 'ls') {
+                        const lsOutput = document.createElement('div');
+                        lsOutput.textContent = 'projects  modules  hosted  CoreRec  GTransformer  MCA-RANK-Finder  VISH-gpt  SLYRIC  MASS  CNN_Driven_Leukemia_Detector  StackOverflow_Salary_Analysis  IntraLanguageInterfaces';
+                        lsOutput.classList.add('user-output');
+                        newLine.insertAdjacentElement('afterend', lsOutput);
+                    } else if (userInput === 'pwd') {
+                        const pwdOutput = document.createElement('div');
+                        pwdOutput.textContent = '/home/vishesh_labs';
+                        pwdOutput.classList.add('user-output');
+                        newLine.insertAdjacentElement('afterend', pwdOutput);
+                    } else if (userInput.startsWith('cd ')) {
+                        const cdOutput = document.createElement('div');
+                        cdOutput.textContent = `Changed directory to ${userInput.substring(3)}`;
+                        cdOutput.classList.add('user-output');
+                        newLine.insertAdjacentElement('afterend', cdOutput);
+                    } else if (userInput === 'clr' || userInput === 'clear') {
+                        const outputs = document.querySelectorAll('.user-output');
+                        outputs.forEach(output => output.remove());
+                    } else if (userInput === 'date') {
+                        const dateOutput = document.createElement('div');
+                        dateOutput.textContent = new Date().toString();
+                        dateOutput.classList.add('user-output');
+                        newLine.insertAdjacentElement('afterend', dateOutput);
+                    } else if (userInput === 'echo') {
+                        const echoOutput = document.createElement('div');
+                        echoOutput.textContent = userInput.substring(5);
+                        echoOutput.classList.add('user-output');
+                        newLine.insertAdjacentElement('afterend', echoOutput);
+                    } else if (userInput === 'help') {
+                        const helpOutput = document.createElement('div');
+                        helpOutput.textContent = 'Available commands: ls, pwd, cd, clr, clear, date, echo, help';
+                        helpOutput.classList.add('user-output');
+                        newLine.insertAdjacentElement('afterend', helpOutput);
+                    } else if (userInput === 'corerec.site' || userInput === 'corerec.git' || userInput === 'corerec' || userInput === 'c' ||
+                        userInput === 'gtransformer' || userInput === 'mca-rank-finder' || userInput === 'mrf' || userInput === 'rankdekho' ||
+                        userInput === 'vishgpt' || userInput === 'vish' || userInput === 'slyric' || userInput === 's' ||
+                        userInput === 'mass' || userInput === 'm' || userInput === 'cnn_driven_leukemia_detector' || userInput === 'cdld' ||
+                        userInput === 'corerec.med' || userInput === 'stackoverflow_salary_analysis' || userInput === 'ssa' ||
+                        userInput === 'IntraLanguageInterfaces' || userInput === 'ili' || userInput === '*' || userInput === 'sun' ||
+                        userInput === '23') {
+                            
+                        const countdownLine = document.createElement('div');
+                        countdownLine.classList.add('user-output');
+                        newLine.insertAdjacentElement('afterend', countdownLine);
+    
+                        let countdown = 1;
+                        countdownLine.textContent = `Redirecting in ${countdown}...`;
+                        const countdownInterval = setInterval(() => {
+                            countdown--;
+                            if (countdown > 0) {
+                                countdownLine.textContent = `Redirecting in ${countdown}...`;
+                            } else {
+                                clearInterval(countdownInterval);
+                                countdownLine.textContent = 'Opening Now...';
+                                setTimeout(() => {
+                                    if (userInput === 'corerec.site') {
+                                        window.open('https://vishesh9131.github.io/corerec-doc-site/', '_blank');
+                                    } else if (userInput === 'corerec.git') {
+                                        window.open('https://github.com/vishesh9131/CoreRec/blob/main/README.md', '_blank');
+                                    } else if (userInput === 'corerec.med') {
+                                        window.open('https://medium.com/@sciencely98/exploring-graph-analysis-and-recommendation-with-vishgraphs-and-corerec-51e696ee6e59', '_blank');
+                                    } else if (userInput === 'corerec' || userInput === 'c') {
+                                        window.open('https://github.com/vishesh9131/CoreRec/blob/main/', '_blank');
+                                    } else if (userInput === 'gtransformer') {
+                                        window.open('https://github.com/vishesh9131/CoreRec/blob/main/src/USECASES/transfmodel.py', '_blank');
+                                    } else if (userInput === 'vishgpt' || userInput === 'vish') {
+                                        window.open('https://vishgpt.streamlit.app', '_blank');
+                                    } else if (userInput === 'mca-rank-finder' || userInput === 'mrf' || userInput === 'rankdekho') {
+                                        window.open('https://rankdekho2.streamlit.app', '_blank');
+                                    } else if (userInput === 'slyric' || userInput === 's') {
+                                        window.open('https://github.com/vishesh9131/SLYRIC/blob/main/README.md', '_blank');
+                                    } else if (userInput === 'mass' || userInput === 'm') {
+                                        window.open('https://github.com/vishesh9131/MASS/blob/main/README.md', '_blank');
+                                    } else if (userInput === 'cnn_driven_leukemia_detector' || userInput === 'cdld') {
+                                        window.open('https://github.com/vishesh9131/Detecting-Leukemia-Using-Convolutinal-Neural-Network-/blob/main/README.md', '_blank');
+                                    } else if (userInput === 'stackoverflow_salary_analysis' || userInput === 'ssa') {
+                                        window.open('https://github.com/vishesh9131/Software-Developer-Salary-Prediction/blob/main/README.md', '_blank');
+                                    } else if (userInput === 'IntraLanguageInterfaces' || userInput === 'ili') {
+                                        window.open('https://github.com/farzadab/intraLanguageInterfaces.git', '_blank');
+                                    } else if (userInput === '*' || userInput === 'sun') {
+                                        window.open('https://github.com/vishesh9131?tab=repositories', '_blank');
+                                    } else if (userInput === '23') {
+                                        // Additional logic if needed
+                                    }
+    
+                                    // Add a new line after the link is opened
+                                    const linkOpenedLine = document.createElement('div');
+                                    linkOpenedLine.textContent = 'Link opened successfully.';
+                                    linkOpenedLine.classList.add('user-output');
+                                    countdownLine.insertAdjacentElement('afterend', linkOpenedLine);
+                                    // Move the input line below the new message
+                                    linkOpenedLine.insertAdjacentElement('afterend', inputLine);
+                                }, 100); // Small delay before opening the URL
+                            }
+                        }, 1000); // 1 second interval for countdown
+                    } else {
+                        const errorLine = document.createElement('div');
+                        errorLine.textContent = 'Command not recognized';
+                        errorLine.classList.add('user-output');
+                        newLine.insertAdjacentElement('afterend', errorLine);
+                    }
+    
+                    // Scroll to the bottom after processing the input
+                    window.scrollTo(0, document.body.scrollHeight);
                 }
-            }, 1000); // 1 second interval for countdown
-        } else {
-            const errorLine = document.createElement('div');
-            errorLine.textContent = 'Command not recognized';
-            errorLine.classList.add('user-output');
-            newLine.insertAdjacentElement('afterend', errorLine);
-        }
-
-        // Scroll to the bottom after processing the input
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-});
-    });
-</script>
+            });
+        });
+    </script>
 </body>
 </html>
