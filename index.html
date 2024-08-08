@@ -243,6 +243,7 @@ vvv           iiiiiiii  sssssssssss    hhhhhhh     hhhhhhh     llllllll  aaaaaaa
                     input.value = suggestion;
                     input.setSelectionRange(userInput.length, suggestion.length);
                 }
+                input.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             });
 
             input.addEventListener('keydown', function (event) {
